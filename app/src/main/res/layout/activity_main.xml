@@ -26,7 +26,6 @@
             android:layout_height="match_parent"
             android:layout_gravity="left"
             android:fitsSystemWindows="true"
-            android:visibility="gone"
             app:headerLayout="@layout/nav_header_main"
             app:itemIconTint="@color/colorPrimary"
             app:itemTextColor="@color/black"
