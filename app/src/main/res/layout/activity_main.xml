@@ -5,7 +5,7 @@
     android:orientation="vertical">
 
     <include
-        layout="@layout/app_bar_main"
+        layout="@layout/include_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
@@ -26,7 +26,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="left"
             android:fitsSystemWindows="true"
-            app:headerLayout="@layout/nav_header_main"
+            app:headerLayout="@layout/nav_header"
             app:itemIconTint="@color/colorPrimary"
             app:itemTextColor="@color/black"
             app:menu="@menu/activity_main_drawer" />

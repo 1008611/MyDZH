@@ -18,7 +18,7 @@ import java.util.Locale;
 public class MyApplication extends Application {
 
     private static MyApplication mInstance;
-    private static Context mContext;
+    public static Context mContext;
 
     /**
      * 屏幕宽度
