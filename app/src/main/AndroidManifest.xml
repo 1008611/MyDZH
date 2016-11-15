@@ -32,7 +32,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.activity.WebViewActivity"></activity>
-
+        <activity android:name=".ui.activity.AboutActivity"></activity>
+        <activity android:name=".ui.activity.NewsDetailsActivity"></activity>
     </application>
 
 </manifest>
