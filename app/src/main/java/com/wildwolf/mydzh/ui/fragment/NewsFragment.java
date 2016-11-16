@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.jude.easyrecyclerview.EasyRecyclerView;
 import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter;
+import com.umeng.analytics.MobclickAgent;
 import com.wildwolf.mydzh.R;
 import com.wildwolf.mydzh.adapter.NewsRecyclerAdapter;
 import com.wildwolf.mydzh.base.BaseMvpViewPagerFragment;
@@ -46,25 +47,27 @@ public class NewsFragment extends BaseMvpViewPagerFragment<NewsPresenter> implem
     private NewsEntity newsInfo;
     private List<NewsEntity.StoriesBean> storiesBeen = new ArrayList<>();
 
-    @Nullable
+
+
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        if (rootView == null) {
-            rootView = inflater.inflate(R.layout.fragment_news, container, false);
-        }
-        ButterKnife.bind(this, rootView);
-        return rootView;
+    protected int getLayoutId() {
+        return R.layout.fragment_news;
+    }
+
+    @Override
+    protected void afterCreate(Bundle savedInstanceState) {
+
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        initView();
     }
 
     @Override
     protected NewsPresenter creatPresenter() {
         return new NewsPresenter(NewsFragment.this);
-    }
-
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        initView();
     }
 
     private void initView() {
@@ -75,7 +78,6 @@ public class NewsFragment extends BaseMvpViewPagerFragment<NewsPresenter> implem
 
         mNewsRecyclerAdapter.setMore(R.layout.view_more, this);
         mNewsRecyclerAdapter.setError(R.layout.view_error);
-
         mRecyclerView.setRefreshListener(this);
         mRecyclerView.setEmptyView(R.layout.view_empty);
         mNewsRecyclerAdapter.setOnItemClickListener(new RecyclerArrayAdapter.OnItemClickListener() {
@@ -101,7 +103,6 @@ public class NewsFragment extends BaseMvpViewPagerFragment<NewsPresenter> implem
                 intent.putExtra("id", item.getId() + "");
                 startActivity(intent);
             }
-
         });
         vpTopStories.startAutoRun();
     }
@@ -118,17 +119,27 @@ public class NewsFragment extends BaseMvpViewPagerFragment<NewsPresenter> implem
     }
 
     @Override
+    public void onLoadMore() {
+        vpTopStories.stopAutoRun();
+        mvpPresenter.getBeforeNews(newsInfo.getDate());
+    }
+
+    @Override
     public void onRefresh() {
         vpTopStories.stopAutoRun();
         storiesBeen.clear();
-        newsInfo=null;
+        newsInfo = null;
         mNewsRecyclerAdapter.clear();
         mvpPresenter.getVideoList();
     }
 
-    @Override
-    public void onLoadMore() {
-        vpTopStories.stopAutoRun();
-        mvpPresenter.getBeforeNews(newsInfo.getDate());
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onPageStart("NewsFragment"); //统计页面
+    }
+
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd("NewsFragment");
     }
 }

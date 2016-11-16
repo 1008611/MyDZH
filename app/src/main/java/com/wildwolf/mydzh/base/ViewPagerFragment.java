@@ -9,7 +9,7 @@ import com.wildwolf.mydzh.utils.LogUtil;
 /**
  * Created by ${wild00wolf} on 2016/11/14.
  */
-public class ViewPagerFragment extends BaseFragment {
+public abstract class ViewPagerFragment extends BaseFragment {
     /**
      * rootView是否初始化标志，防止回调函数在rootView为空的时候触发
      */

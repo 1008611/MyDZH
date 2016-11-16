@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Message;
+import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.webkit.WebSettings;
@@ -19,7 +20,6 @@ import com.wildwolf.mydzh.presenter.NewsDetailsPresenter;
 import com.wildwolf.mydzh.view.NewsDetailsView;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 
 /**
  * Created by ${wild00wolf} on 2016/11/15.
@@ -38,20 +38,25 @@ public class NewsDetailsActivity extends BaseMvpActivity<NewsDetailsPresenter> i
     @Bind(R.id.tv_img_source)
     TextView imgSource;
 
+    @Override
+    protected int getLayoutId() {
+        return R.layout.activity_news_details;
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_news_details);
-        ButterKnife.bind(this);
+    protected void afterCreat(Bundle savedInstanceState) {
         initView();
     }
 
     private void initView() {
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar!= null){
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+
         toolbar.setTitle("");
         toolbar.setTitleTextColor(Color.WHITE);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         id = getIntent().getStringExtra("id");
         mvpPresenter.getDetailNews(id);

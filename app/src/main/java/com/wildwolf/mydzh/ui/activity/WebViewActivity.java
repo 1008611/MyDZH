@@ -1,7 +1,10 @@
 package com.wildwolf.mydzh.ui.activity;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.support.annotation.Nullable;
+import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.webkit.WebChromeClient;
@@ -27,18 +30,26 @@ public class WebViewActivity extends BaseActivity {
     Toolbar toolbar;
     private String urlPath;
 
+
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_webview);
-        ButterKnife.bind(this);
+    protected int getLayoutId() {
+        return R.layout.activity_webview;
+    }
+
+    @Override
+    protected void afterCreat(Bundle savedInstanceState) {
         initView();
     }
 
+
     private void initView() {
-        toolbar.setTitle("视频详情");
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+        toolbar.setTitle("视频详情");
+        toolbar.setTitleTextColor(Color.WHITE);
 
         urlPath = getIntent().getStringExtra("url");
         setSettings(webView.getSettings());
@@ -83,11 +94,11 @@ public class WebViewActivity extends BaseActivity {
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK){
-            if (webView.canGoBack()){
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if (webView.canGoBack()) {
                 webView.goBack();
                 return true;
-            }else {
+            } else {
                 finish();
             }
         }
@@ -108,7 +119,10 @@ public class WebViewActivity extends BaseActivity {
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         webView.destroy();
+        super.onDestroy();
+
     }
+
+
 }

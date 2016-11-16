@@ -20,15 +20,30 @@ import rx.subscriptions.CompositeSubscription;
 /**
  * Created by ${wild00wolf} on 2016/11/14.
  */
-public class BaseFragment  extends Fragment{
+public abstract class BaseFragment  extends Fragment{
+
+    public static final String TAG = BaseFragment.class.getSimpleName();
+    protected View mRootView;
     public Activity mActivity;
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        mRootView = inflater.inflate(getLayoutId(),container,false);
+        return mRootView;
+    }
+
+    protected abstract int getLayoutId();
+
+    protected abstract void afterCreate(Bundle savedInstanceState);
 
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ButterKnife.bind(this,view);
+        ButterKnife.bind(this, view);
         mActivity = getActivity();
+        afterCreate(savedInstanceState);
     }
 
     @Override
@@ -65,12 +80,6 @@ public class BaseFragment  extends Fragment{
         return progressDialog;
     }
 
-//    public ProgressDialog showProgressDialog(CharSequence message) {
-//        progressDialog = new ProgressDialog(mActivity);
-//        progressDialog.setMessage(message);
-//        progressDialog.show();
-//        return progressDialog;
-//    }
 
     public void dismissProgressDialog() {
         if (progressDialog != null && progressDialog.isShowing()) {

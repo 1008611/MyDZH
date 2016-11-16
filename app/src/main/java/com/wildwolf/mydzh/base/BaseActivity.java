@@ -2,6 +2,7 @@ package com.wildwolf.mydzh.base;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -29,35 +30,34 @@ import rx.subscriptions.CompositeSubscription;
 /**
  * Created by ${wild00wolf} on 2016/11/11.
  */
-public class BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity extends AppCompatActivity {
     public Activity mActivity;
     private CompositeSubscription mCompositeSubscription;
     private List<Call> calls;
 
     @Override
-    public void setContentView(@LayoutRes int layoutResID) {
-        super.setContentView(layoutResID);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(getLayoutId());
+
         ButterKnife.bind(this);
         mActivity = this;
+        afterCreat(savedInstanceState);
     }
-
-
-    @Override
-    public void setContentView(View view) {
-        super.setContentView(view);
-        ButterKnife.bind(this);
-        mActivity = this;
-    }
-
-
 
     @Override
     protected void onDestroy() {
         callCancel();
         onUnsubscribe();
+
+        ButterKnife.unbind(this);
         super.onDestroy();
+
     }
 
+    protected abstract int getLayoutId();
+
+    protected abstract void afterCreat(Bundle savedInstanceState);
 
 
     private void callCancel() {
@@ -137,10 +137,6 @@ public class BaseActivity extends AppCompatActivity {
 
     }
 
-    public void toastShow(int resId) {
-        Toast.makeText(mActivity, resId, Toast.LENGTH_SHORT).show();
-    }
-
     public void toastShow(String resId) {
         Toast.makeText(mActivity, resId, Toast.LENGTH_SHORT).show();
     }
@@ -150,13 +146,6 @@ public class BaseActivity extends AppCompatActivity {
     public ProgressDialog showProgressDialog() {
         progressDialog = new ProgressDialog(mActivity);
         progressDialog.setMessage("加载中");
-        progressDialog.show();
-        return progressDialog;
-    }
-
-    public ProgressDialog showProgressDialog(CharSequence message) {
-        progressDialog = new ProgressDialog(mActivity);
-        progressDialog.setMessage(message);
         progressDialog.show();
         return progressDialog;
     }

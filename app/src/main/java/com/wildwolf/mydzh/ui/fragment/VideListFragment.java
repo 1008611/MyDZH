@@ -46,14 +46,15 @@ public class VideListFragment extends BaseMvpViewPagerFragment<MainPresenter> im
     private int count = 10;
     private List<VideoEntity> videoEntities = new ArrayList<>();
 
-    @Nullable
+
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        if (rootView == null) {
-            rootView = inflater.inflate(R.layout.layout_only_list, container, false);
-        }
-        ButterKnife.bind(this, rootView);
-        return rootView;
+    protected int getLayoutId() {
+        return R.layout.layout_only_list;
+    }
+
+    @Override
+    protected void afterCreate(Bundle savedInstanceState) {
+
     }
 
     @Override

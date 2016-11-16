@@ -36,15 +36,16 @@ public class VideoFragment extends BaseFragment {
             "热门", "搞笑", "逗比", "明星名人", "男神", "女神", "音乐", "舞蹈", "旅行", "美食", "美妆时尚", "涨姿势", "宝宝", "萌宠乐园", "二次元"
     };
 
-    @Nullable
+
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-      if (rootView == null){
-          rootView = inflater.inflate(R.layout.fragment_video,container,false);
-      }
-        ButterKnife.bind(this,rootView);
+    protected int getLayoutId() {
+        return R.layout.fragment_video;
+    }
+
+    @Override
+    protected void afterCreate(Bundle savedInstanceState) {
         setupViewPager();
-        return rootView;
     }
 
     private void setupViewPager() {

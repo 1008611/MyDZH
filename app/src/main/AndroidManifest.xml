@@ -33,7 +33,7 @@
         </activity>
         <activity android:name=".ui.activity.WebViewActivity"></activity>
         <activity android:name=".ui.activity.AboutActivity"></activity>
-        <activity android:name=".ui.activity.NewsDetailsActivity"></activity>
+        <activity android:name=".ui.activity.NewsDetailsActivity" android:theme="@style/AppTheme" ></activity>
     </application>
 
 </manifest>
